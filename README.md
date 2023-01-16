@@ -11,19 +11,22 @@ This is a Pet Project to learn Data Scraping and GUI in python
  
  # Requirements
  
+ - Chrome as this only works for Chrome so far
+ 
+ - Chromedrive is required, you can download it from here [Download Chrome Driver](https://chromedriver.chromium.org/downloads)  (This is Needed for Selenium to take Data from Chrome)
+ 
  - To Download Dependencies, Run
     ```
     pip install -r requirements.txt
     ```
 - <b>       OR      </b>
  
-  - The Following Libraries are Needed to Run
-    ```
-    selenium
-    pandas
-    json
-    PySimpleGUI
-    ```
+- The Following Libraries are Needed to Run
+   > selenium <br>
+   > pandas <br>
+   > json <br>
+   > PySimpleGUI <br>
+ 
 
 ## Updates
 
@@ -36,3 +39,10 @@ This is a Pet Project to learn Data Scraping and GUI in python
 - Added Error Handling for Wrong Username and Password
 - Added Error Handling for Internet Connection
 - Added Timeout Limit for the Webpage to Load
+
+
+## Planned Updates
+
+ - Add Support for other Browsers as well
+ - Add a Icon
+ - Maybe Convert to a Console Less Pure GUI .exe file
