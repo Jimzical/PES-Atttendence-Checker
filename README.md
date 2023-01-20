@@ -2,6 +2,9 @@
 
 This is a Pet Project to learn Data Scraping and GUI in python
 
+It Calculates How Many Classes The User Is Ahead Or Behind Of A Set Attendence Limit By Checking The Attendence From pesuacademy
+It Then Shows How Many Classes Required To Get Back To That Limit If Behind or How Many Can Be Missed If Ahead
+
 # Features
 
  - Checks pesuacademy.com to find your Attendence 
@@ -9,11 +12,24 @@ This is a Pet Project to learn Data Scraping and GUI in python
  - Saves Password if Required
  - Completly GUI Based
  
+ 
+ # How it Works
+ 
+
+ 
+  - It Uses the Data Entered in the Login Screen and puts in into the [Pesuacademy Login Page](https://www.pesuacademy.com/Academy/)
+  
+    - If Remember Me is Ticked, it Writes the Data into a Json file if its Blank or Changed
+  ![Login](https://user-images.githubusercontent.com/97384467/213768366-e87e094b-9805-4a98-ae8b-204033a5026b.png)
+  
+  - It then Navigates to the Attendece Section and Scraps that Data
+  - Then the Output is Shown in a Brand New Window
+  
+  
  # Requirements
  
- - Chrome as this only works for Chrome so far
- 
  - Chromedrive is required, you can download it from here [Download Chrome Driver](https://chromedriver.chromium.org/downloads)  (This is Needed for Selenium to take Data from Chrome)
+ >Chrome is Required as this only works for Chrome so far
  
  - To Download Dependencies, Run
     ```
