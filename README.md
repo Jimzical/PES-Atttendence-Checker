@@ -18,13 +18,18 @@ It Then Shows How Many Classes Required To Get Back To That Limit If Behind or H
 
  
   - It Uses the Data Entered in the Login Screen and puts in into the [Pesuacademy Login Page](https://www.pesuacademy.com/Academy/)
-  
     - If Remember Me is Ticked, it Writes the Data into a Json file if its Blank or Changed
+
+
   ![Login](https://user-images.githubusercontent.com/97384467/213768366-e87e094b-9805-4a98-ae8b-204033a5026b.png)
   
   - It then Navigates to the Attendece Section and Scraps that Data
   - Then the Output is Shown in a Brand New Window
+
+  ![Output-1](https://user-images.githubusercontent.com/97384467/213769525-3342663e-829a-4249-9a23-f34e71c3a019.png)
   
+  ![Output-2](https://user-images.githubusercontent.com/97384467/213769918-46e540ca-e9c5-4e16-8dd6-1b20373bf41e.png)
+
   
  # Requirements
  
