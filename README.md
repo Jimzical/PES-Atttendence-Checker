@@ -68,3 +68,4 @@ It Then Shows How Many Classes Required To Get Back To That Limit If Behind or H
  - Add Support for other Browsers as well
  - Add a Icon
  - Maybe Convert to a Console Less Pure GUI .exe file
+ - Maybe Convert to a Flask app with better UI/UX, whatever thats supposed to mean 
