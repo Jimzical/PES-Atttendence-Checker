@@ -27,10 +27,10 @@ It Then Shows How Many Classes Required To Get Back To That Limit If Behind or H
   - Then the Output is Shown in a Brand New Window
 
 
-   ![Output-2](https://user-images.githubusercontent.com/97384467/214359948-c6592935-ae54-4d7b-a9b5-9e05b884a6a3.png) 
+     ![Output-2](https://user-images.githubusercontent.com/97384467/214359948-c6592935-ae54-4d7b-a9b5-9e05b884a6a3.png) 
   
-   ![Output-2](https://user-images.githubusercontent.com/97384467/213769918-46e540ca-e9c5-4e16-8dd6-1b20373bf41e.png)
-
+     ![Output-2](https://user-images.githubusercontent.com/97384467/213769918-46e540ca-e9c5-4e16-8dd6-1b20373bf41e.png)
+ 
   
  # Requirements
  
