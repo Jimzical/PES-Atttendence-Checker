@@ -51,15 +51,17 @@ def buildGUI():
     # make a window which takes username and password as input
     layout = [[sg.Text('Enter the Username:',font=("Cascadia Code",12) ),sg.Input(key='-USERNAME-',background_color='white',default_text = DefaultUsername)],
                 [sg.Text('Enter the Password:',font=("Cascadia Code",12)),sg.Input(key='-PASSWORD-',password_char='*',background_color='white',default_text= DefaultPassword)],
-                [sg.Text('Enter the Attendence Limit:',font=("Cascadia Code",12)),sg.Input(key='-ATTENDENCE-',default_text='80',background_color='white')],
+                [sg.Text('Enter the Attendence Limit:',font=("Cascadia Code",12)),sg.Input(key='-Attendence-',default_text='80',background_color='white')],
                 [sg.Button('Submit',font=("Cascadia Code",12),focus= True),sg.Button('Cancel',font=("Cascadia Code",12)),sg.Checkbox('Remember Me',font=("Cascadia Code",12),default= True,key='-REMEMBER-')]]
     window = sg.Window('Attendence Calculator',layout = layout,grab_anywhere=True)
-    event, values = window.read()
-
+    print('Building GUI....Done')
     print('Waiting for the User to Enter the Credentials....')
 
+    event, values = window.read()
+
+
     if event == 'Submit':
-        print('Credentials Entered....')
+        print('Waiting for the User to Enter the Credentials....Done')
         if (values['-REMEMBER-'] and values['-USERNAME-'] != '' or values['-PASSWORD-'] != '' ):
             data['Username'] = values['-USERNAME-']
             data['Password'] = values['-PASSWORD-']
@@ -172,7 +174,7 @@ def Scraping(browser,username,password):
     # Submit Button
     TryElement(browser,"xpath", '//*[@id="postloginform#/Academy/j_spring_security_check"]',action= 'click')
 
-    print('Logged In')
+    print('Logging In....Done')
 
     print('Getting the Data....')
     # Attendece Menu
@@ -200,30 +202,29 @@ def Scraping(browser,username,password):
     df = pd.DataFrame(ClassesAndPercentrage,columns=["Classes","Percentage"],index = subjectName)
     df.index.name = "Subject"
 
-    print('Data Scraped')
+    print('Getting the Data....Done')
     return df
 
 # Attendence Calcuation
-def attendence(Subject ,Classes = '0/0', attendence_limit = 80, Percents = 0):
+def Attendence(Subject ,Classes = '0/0', Attendence_limit = 80, Percents = 0):
     '''
     ------------------------------------------------------
-    Function to calculate the attendence
+    Function to calculate the Attendence
     ------------------------------------------------------
 
     @param
     Subject: Subject Name [str]
     Classes: Classes Attended and Total Classes [str]
-    attendence_limit: Attendence Limit [int]
+    Attendence_limit: Attendence Limit [int]
     Percents: Current Percentage [int]
 
     Returns:
         stringItem: [str]   
     '''
-    print('Calculating Attendence....')
-
-    if type(attendence_limit) == str:
-        attendence_limit = 80
-    attendence_limit = int(attendence_limit)
+    if type(Attendence_limit) != int or Attendence_limit < 0 or Attendence_limit > 100:
+        print('Attendence Limit should be an integer between 0 and 100, Using Default Value (80)')
+        Attendence_limit = 80
+    Attendence_limit = int(Attendence_limit)
     count=0
     Classes_list = Classes.split('/')
     classesAttended = int(Classes_list[0])
@@ -241,14 +242,14 @@ def attendence(Subject ,Classes = '0/0', attendence_limit = 80, Percents = 0):
     if classesTaken<classesAttended:
             classesTaken,classesAttended=classesAttended,classesTaken
 
-    if (classesAttended/classesTaken*100<attendence_limit):
-            while (classesAttended/classesTaken*100<=attendence_limit):
+    if (classesAttended/classesTaken*100<Attendence_limit):
+            while (classesAttended/classesTaken*100<=Attendence_limit):
                 count+=1
                 classesAttended+=1
                 classesTaken+=1
             stringItem += f"Need {count} Classes\n"
     else:                  
-            while (classesAttended/classesTaken*100>attendence_limit):
+            while (classesAttended/classesTaken*100>Attendence_limit):
                 count+=1
                 classesTaken+=1
             stringItem += f"Can Miss {count} Classes\n"
@@ -256,8 +257,6 @@ def attendence(Subject ,Classes = '0/0', attendence_limit = 80, Percents = 0):
     stringItem += f"Min No of Classes to be Attended {classesAttended}\nNo of Classes it will take Totally {classesTaken}\n"
     
     stringItem += f"Percentage: {round(classesAttended/classesTaken*100,2)}\n"
-
-    print('Attendence Calculated')
     return stringItem
 
 def ShowData(df,TotalData,LoadingWindow,browser):
@@ -275,9 +274,9 @@ def ShowData(df,TotalData,LoadingWindow,browser):
     Returns:
         None
     '''
-    browser.close()
-
     print('Closing the Browser....')
+    browser.close()
+    print('Closing the Browser....Done')
 
     print('Showing the Data....')
     print('Building the Window....')
@@ -289,17 +288,21 @@ def ShowData(df,TotalData,LoadingWindow,browser):
     
     newWindow = sg.Window('Data',layout=layout,resizable=True)
     LoadingWindow.close()
+
+    print('Closing the Loading Window....Done')
+    
+    print('Building the Window....Done')
+    print('Showing the Data....Done')
+    
     event, values = newWindow.read()
     
-    print('Window Built')
 
-    print('Data Shown')
 
     if event == 'Ok' or event == sg.WIN_CLOSED:
         newWindow.close()
         print('Exiting....')
-        print('Exited')
-        print('Thank You')
+        print('Exiting....Done')
+        print('Thank You for using this Software')
         exit()
 
 def main(username,password,attnLimit = 80):
@@ -323,21 +326,24 @@ def main(username,password,attnLimit = 80):
     LoadingWindow = sg.Window('Loading',[[sg.Text('Loading....',font=("Casadia Code",15))]])
     LoadingWindow.read(timeout=0)
 
-    print("Opening Browser")
+    print("Opening Browser....")
     browser = OpenBrowser()
-
+    print("Opening Browser....Done")
 
     df = Scraping(browser=browser,username=username,password=password)
 
-    # attendence(Classes = (df.loc[row[0],"Classes"]), attendence_limit = 80)
+    # Attendence(Classes = (df.loc[row[0],"Classes"]), Attendence_limit = 80)
     TotalData = ""
+    print('Calculating Attendence....')
     for ind in df.index:
-            text = attendence(Subject = ind,Classes = df["Classes"][ind], attendence_limit = attnLimit, Percents = df["Percentage"][ind])
+            text = Attendence(Subject = ind,Classes = df["Classes"][ind], Attendence_limit = attnLimit, Percents = df["Percentage"][ind])
             TotalData += text
-
+    print('Calculating Attendence....Done')
+    print('Closing the Loading Window....')
+    print('Building the Data Window....')
     ShowData(df,TotalData,LoadingWindow,browser)
 
 if __name__ == "__main__":
     print('Starting....')
-    print('Building GUI')
+    print('Building GUI...')
     buildGUI()
