@@ -66,6 +66,7 @@ It Then Shows How Many Classes Required To Get Back To That Limit If Behind or H
 
 ## Planned Updates
 
+ - Fix the Sem 1 Calculation Logic that hasnt been updated yet
  - Add Support for other Browsers as well
  - Add a Icon
  - Maybe Convert to a Console Less Pure GUI .exe file
