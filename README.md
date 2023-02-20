@@ -35,6 +35,7 @@ It Then Shows How Many Classes Required To Get Back To That Limit If Behind or H
  # Requirements
  
  - Chromedrive is required, you can download it from here [Download Chrome Driver](https://chromedriver.chromium.org/downloads)  (This is Needed for Selenium to take Data from Chrome)
+ - You can Find out your chrome version by visiting Chrome Settings -> Help or putting chrome://settings/help in the SearchBar
  >Chrome is Required as this only works for Chrome so far
  
  - To Download Dependencies, Run
