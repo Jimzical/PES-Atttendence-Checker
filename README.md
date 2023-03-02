@@ -5,6 +5,18 @@ This is a Pet Project to learn Data Scraping and GUI in python
 It Calculates How Many Classes The User Is Ahead Or Behind Of A Set Attendence Limit By Checking The Attendence From pesuacademy
 It Then Shows How Many Classes Required To Get Back To That Limit If Behind or How Many Can Be Missed If Ahead
 
+# Table of Content
+
+
+| Topic           	| Shortcut                              	|
+|-----------------	|---------------------------------------	|
+| Features        	|  [Features](#features)               	|
+| How it Works    	|  [How it Works](#how-it-works)       	|
+| Requirements    	|  [Requirements](#requirements)       	|
+| Updates         	|  [Updates](#updates)                 	|
+| Planned Updates 	|  [Planned Updates](#planned-updates) 	|
+
+
 # Features
 
  - Checks pesuacademy.com to find your Attendence 
@@ -34,7 +46,8 @@ It Then Shows How Many Classes Required To Get Back To That Limit If Behind or H
   
  # Requirements
  
- - Chromedrive is required, you can download it from here [Download Chrome Driver](https://chromedriver.chromium.org/downloads)  (This is Needed for Selenium to take Data from Chrome)
+ - Chromedriver is required, This Repo comes with the driver for verision 110.0.5481.178. If you have a newer version of chrome replace the driver with a newer version from the website 
+  >You can download it from here [Download Chrome Driver](https://chromedriver.chromium.org/downloads)  (This is Needed for Selenium to take Data from Chrome)
  - You can Find out your chrome version by visiting Chrome Settings -> Help or putting chrome://settings/help in the SearchBar
  >Chrome is Required as this only works for Chrome so far
  
