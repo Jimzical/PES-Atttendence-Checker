@@ -287,7 +287,7 @@ def ShowData(df,TotalData,LoadingWindow,browser):
     col = [sg.Column([[sg.Text(out,font=('Courier'))],[sg.Text(TotalData,font=('Courier'))],[sg.Button('Ok',key="--OK--",auto_size_button=True,font= ('Courier'))]],scrollable=True, element_justification='center',vertical_scroll_only=True)]
     layout = [col]
     
-    newWindow = sg.Window('Data',layout=layout,resizable=True)
+    newWindow = sg.Window('Data',layout=layout,resizable=True , icon='Media/icon.ico')
     LoadingWindow.close()
 
     print('Closing the Loading Window....Done')
@@ -324,7 +324,7 @@ def main(username,password,attnLimit = 80):
     
     print("Loading....")
 
-    LoadingWindow = sg.Window('Loading',[[sg.Text('Loading....',font=("Casadia Code",15))]])
+    LoadingWindow = sg.Window('Loading',[[sg.Text('Loading....',font=("Casadia Code",15))]] , icon='Media/icon.ico')
     LoadingWindow.read(timeout=0)
 
     print("Opening Browser....")
