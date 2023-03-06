@@ -1,13 +1,5 @@
-# V6
-# - Remember Me Functionality Added
-# - Fixed the TryElement Function
-# - Fixed Fonts
-# - Fixed the Loading Window
-# - Added Default Username and Password
-# - Added json file to store the username and password
-# - Added Error Handling for Wrong Username and Password
-# - Added Error Handling for Internet Connection
-# - Added Timeout Limit for the Webpage to Load
+# V7
+# PESU Academy Attendence Calculator
 
 
 from selenium import webdriver
@@ -36,12 +28,14 @@ def buildGUI():
             data = json.load(f)
             DefaultUsername = data['Username'].strip()
             DefaultPassword= data['Password'].strip()
+            DefaultAttendence = data['Attendence'].strip()
     else:
         with open('secrets.json','w') as f:
             data = {'Username':'','Password':''}
             json.dump(data,f)
             DefaultUsername = ''
             DefaultPassword = ''
+            DefaultAttendence = '80'
     
     print('Reading Files....Done')
 
@@ -49,27 +43,30 @@ def buildGUI():
     # sg.theme('Black')   # Add a touch of color
     sg.theme('DarkBrown2')
     # make a window which takes username and password as input
+    
     layout = [[sg.Text('Enter the Username:',font=("Cascadia Code",12) ),sg.Input(key='-USERNAME-',background_color='white',default_text = DefaultUsername)],
                 [sg.Text('Enter the Password:',font=("Cascadia Code",12)),sg.Input(key='-PASSWORD-',password_char='*',background_color='white',default_text= DefaultPassword)],
-                [sg.Text('Enter the Attendence Limit:',font=("Cascadia Code",12)),sg.Input(key='-Attendence-',default_text='80',background_color='white')],
+                [sg.Text('Enter the Attendence Limit:',font=("Cascadia Code",12)),sg.Input(key='-Attendence-',default_text=DefaultAttendence,background_color='white')],
                 [sg.Button('Submit',font=("Cascadia Code",12),focus= True),sg.Button('Cancel',font=("Cascadia Code",12)),sg.Checkbox('Remember Me',font=("Cascadia Code",12),default= True,key='-REMEMBER-')]]
     window = sg.Window('Attendence Calculator',layout = layout,grab_anywhere=True)
     print('Building GUI....Done')
     print('Waiting for the User to Enter the Credentials....')
 
-    event, values = window.read()
 
+    event, values = window.read()
+    
 
     if event == 'Submit':
         print('Waiting for the User to Enter the Credentials....Done')
         if (values['-REMEMBER-'] and values['-USERNAME-'] != '' or values['-PASSWORD-'] != '' ):
             data['Username'] = values['-USERNAME-']
             data['Password'] = values['-PASSWORD-']
+            data['Attendence'] = values['-Attendence-']
             with open('secrets.json','w') as f:
                 json.dump(data,f)
         
         window.close()        
-        main(username = values['-USERNAME-'],password = values['-PASSWORD-'])
+        main(username = values['-USERNAME-'],password = values['-PASSWORD-'],attnLimit = values['-Attendence-'])
     
     elif event == 'Cancel' or event == sg.WIN_CLOSED:
             print('Cancelled')
@@ -101,10 +98,10 @@ def OpenBrowser():
 
     return browser
 
-def TryElement(browser,elementType,element,action = None, Timeout = 120):
+def TryElement(browser,elementType,element,action = None, Timeout = 15):
     '''
     ------------------------------------------------------
-    Function to click the element once it is present in the webpage
+    Function to click the element once it is present in the webpage    
     ------------------------------------------------------
 
     @param
@@ -221,6 +218,7 @@ def Attendence(Subject ,Classes = '0/0', Attendence_limit = 80, Percents = 0):
     Returns:
         stringItem: [str]   
     '''
+
     if type(Attendence_limit) != int or Attendence_limit < 0 or Attendence_limit > 100:
         print('Attendence Limit should be an integer between 0 and 100, Using Default Value (80)')
         Attendence_limit = 80
@@ -242,21 +240,24 @@ def Attendence(Subject ,Classes = '0/0', Attendence_limit = 80, Percents = 0):
     if classesTaken<classesAttended:
             classesTaken,classesAttended=classesAttended,classesTaken
 
-    if (classesAttended/classesTaken*100<Attendence_limit):
-            while (classesAttended/classesTaken*100<=Attendence_limit):
-                count+=1
+    if (classesAttended/classesTaken * 100 < Attendence_limit):
+            while (classesAttended/classesTaken * 100 < Attendence_limit):
                 classesAttended+=1
                 classesTaken+=1
+                count+=1
+
             stringItem += f"Need {count} Classes\n"
     else:                  
-            while (classesAttended/classesTaken*100>Attendence_limit):
-                count+=1
+            while (classesAttended/classesTaken * 100 > Attendence_limit):
                 classesTaken+=1
-            stringItem += f"Can Miss {count} Classes\n"
+                count+=1
+            
 
-    stringItem += f"Min No of Classes to be Attended {classesAttended}\nNo of Classes it will take Totally {classesTaken}\n"
+            stringItem += f"Can Miss {count - 1} Classes\n"
+
+    stringItem += f"Min No of Classes to be Attended {classesAttended}\nNo of Classes it will take Totally {classesTaken - 1}\n"
     
-    stringItem += f"Percentage: {round(classesAttended/classesTaken*100,2)}\n"
+    stringItem += f"The New Percentage Will Be: {round(classesAttended/(classesTaken - 1)*100,2)}\n"
     return stringItem
 
 def ShowData(df,TotalData,LoadingWindow,browser):
@@ -283,7 +284,7 @@ def ShowData(df,TotalData,LoadingWindow,browser):
 
     out = df.to_markdown(tablefmt='pipe', colalign=['center']*len(df.columns))
     
-    col = [sg.Column([[sg.Text(out,font=('Courier'))],[sg.Text(TotalData,font=('Courier'))],[sg.Button('Ok',auto_size_button=True,font= ('Courier'))]],scrollable=True, element_justification='center',vertical_scroll_only=True)]
+    col = [sg.Column([[sg.Text(out,font=('Courier'))],[sg.Text(TotalData,font=('Courier'))],[sg.Button('Ok',key="--OK--",auto_size_button=True,font= ('Courier'))]],scrollable=True, element_justification='center',vertical_scroll_only=True)]
     layout = [col]
     
     newWindow = sg.Window('Data',layout=layout,resizable=True)
@@ -298,7 +299,7 @@ def ShowData(df,TotalData,LoadingWindow,browser):
     
 
 
-    if event == 'Ok' or event == sg.WIN_CLOSED:
+    if event == 'Ok' or event == sg.WIN_CLOSED or event == '--OK--':
         newWindow.close()
         print('Exiting....')
         print('Exiting....Done')
@@ -336,7 +337,7 @@ def main(username,password,attnLimit = 80):
     TotalData = ""
     print('Calculating Attendence....')
     for ind in df.index:
-            text = Attendence(Subject = ind,Classes = df["Classes"][ind], Attendence_limit = attnLimit, Percents = df["Percentage"][ind])
+            text = Attendence(Subject = ind,Classes = df["Classes"][ind], Attendence_limit = int(attnLimit), Percents = df["Percentage"][ind])
             TotalData += text
     print('Calculating Attendence....Done')
     print('Closing the Loading Window....')
