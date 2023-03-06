@@ -66,21 +66,8 @@ It Then Shows How Many Classes Required To Get Back To That Limit If Behind or H
 
 ## Updates
 
-- Remember Me Functionality Added
-- Fixed the TryElement Function
-- Fixed Fonts
-- Fixed the Loading Window
-- Added Default Username and Password
-- Added json file to store the username and password
-- Added Error Handling for Wrong Username and Password
-- Added Error Handling for Internet Connection
-- Added Timeout Limit for the Webpage to Load
-
+- Fix the Sem 1 Calculation Logic that hasnt been updated yet
+ - Add a Icon
 
 ## Planned Updates
-
- - Fix the Sem 1 Calculation Logic that hasnt been updated yet
  - Add Support for other Browsers as well
- - Add a Icon
- - Maybe Convert to a Console Less Pure GUI .exe file
- - Maybe Convert to a Flask app with better UI/UX, whatever thats supposed to mean 
