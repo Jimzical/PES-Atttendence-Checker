@@ -43,12 +43,12 @@ def buildGUI():
     # sg.theme('Black')   # Add a touch of color
     sg.theme('DarkBrown2')
     # make a window which takes username and password as input
-    
     layout = [[sg.Text('Enter the Username:',font=("Cascadia Code",12) ),sg.Input(key='-USERNAME-',background_color='white',default_text = DefaultUsername)],
                 [sg.Text('Enter the Password:',font=("Cascadia Code",12)),sg.Input(key='-PASSWORD-',password_char='*',background_color='white',default_text= DefaultPassword)],
-                [sg.Text('Enter the Attendence Limit:',font=("Cascadia Code",12)),sg.Input(key='-Attendence-',default_text=DefaultAttendence,background_color='white')],
-                [sg.Button('Submit',font=("Cascadia Code",12),focus= True),sg.Button('Cancel',font=("Cascadia Code",12)),sg.Checkbox('Remember Me',font=("Cascadia Code",12),default= True,key='-REMEMBER-')]]
-    window = sg.Window('Attendence Calculator',layout = layout,grab_anywhere=True)
+                [sg.Text('Enter the Attendence Limit:',font=("Cascadia Code",12)),sg.Input(key='-Attendence-',default_text=DefaultAttendence,background_color='white',size=(37,1))],
+                [sg.Button('Submit',font=("Cascadia Code",12),focus= True),sg.Button('Cancel',font=("Cascadia Code",12))],
+                [sg.Checkbox('Remember Me',font=("Cascadia Code",12),default= True,key='-REMEMBER-')]]
+    window = sg.Window('Attendence Calculator',layout = layout,grab_anywhere=True , icon = 'Media\icon.ico',font=("Cascadia Code",12),element_justification='center',resizable=True)
     print('Building GUI....Done')
     print('Waiting for the User to Enter the Credentials....')
 
