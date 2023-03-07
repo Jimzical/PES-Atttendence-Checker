@@ -224,40 +224,48 @@ def Attendence(Subject ,Classes = '0/0', Attendence_limit = 80, Percents = 0):
         Attendence_limit = 80
     Attendence_limit = int(Attendence_limit)
     count=0
-    Classes_list = Classes.split('/')
-    classesAttended = int(Classes_list[0])
-    classesTaken = int(Classes_list[1])
     stringItem = ''
+
+    if Classes == 'NA':
+        stringItem+='----------------------------------------------------------------------------------------------------\n'
+        stringItem += f"\t\t\t\t{Subject}\t\t\t\t\n"
+        stringItem += f"No Classes Taken Yet\n"
+
+    else:
+        Classes_list = Classes.split('/')
+        classesAttended = int(Classes_list[0])
+        classesTaken = int(Classes_list[1])
     
-    stringItem+='----------------------------------------------------------------------------------------------------\n'
-    
-    stringItem += f"\t\t\t\t{Subject}\t\t\t\t\n"
+        stringItem+='----------------------------------------------------------------------------------------------------\n'
+        
+        stringItem += f"\t\t\t\t{Subject}\t\t\t\t\n"
 
-    stringItem += f"Current Percentage: {Percents}\n"
+        stringItem += f"Current Percentage: {Percents}\n"
 
-    stringItem += f"Current Classes: {Classes}\n"
+        stringItem += f"Current Classes: {Classes}\n"
 
-    if classesTaken<classesAttended:
-            classesTaken,classesAttended=classesAttended,classesTaken
+        if classesTaken<classesAttended:
+                classesTaken,classesAttended=classesAttended,classesTaken
 
-    if (classesAttended/classesTaken * 100 < Attendence_limit):
-            while (classesAttended/classesTaken * 100 < Attendence_limit):
-                classesAttended+=1
-                classesTaken+=1
-                count+=1
+        if (classesAttended/classesTaken * 100 < Attendence_limit):
+                while (classesAttended/classesTaken * 100 < Attendence_limit):
+                    classesAttended+=1
+                    classesTaken+=1
+                    count+=1
 
-            stringItem += f"Need {count} Classes\n"
-    else:                  
-            while (classesAttended/classesTaken * 100 > Attendence_limit):
-                classesTaken+=1
-                count+=1
-            
+                stringItem += f"Need {count} Classes\n"
+        else:                  
+                while (classesAttended/classesTaken * 100 > Attendence_limit):
+                    classesTaken+=1
+                    count+=1
+                
 
-            stringItem += f"Can Miss {count - 1} Classes\n"
+                stringItem += f"Can Miss {count - 1} Classes\n"
 
-    stringItem += f"Min No of Classes to be Attended {classesAttended}\nNo of Classes it will take Totally {classesTaken - 1}\n"
-    
-    stringItem += f"The New Percentage Will Be: {round(classesAttended/(classesTaken - 1)*100,2)}\n"
+        stringItem += f"Min No of Classes to be Attended {classesAttended}\nNo of Classes it will take Totally {classesTaken - 1}\n"
+        
+        stringItem += f"The New Percentage Will Be: {round(classesAttended/(classesTaken - 1)*100,2)}\n"
+    print(stringItem)
     return stringItem
 
 def ShowData(df,TotalData,LoadingWindow,browser):
@@ -324,7 +332,7 @@ def main(username,password,attnLimit = 80):
     
     print("Loading....")
 
-    LoadingWindow = sg.Window('Loading',[[sg.Text('Loading....',font=("Casadia Code",15))]] , icon='Media/icon.ico')
+    LoadingWindow = sg.Window('Loading',[[sg.Text('Loading....',font=("Casadia Code",15))]] , icon='Media/icon.ico', grab_anywhere=True)
     LoadingWindow.read(timeout=0)
 
     print("Opening Browser....")
