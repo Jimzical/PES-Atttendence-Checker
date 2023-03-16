@@ -262,7 +262,8 @@ def Attendence(Subject ,Classes = '0/0', Attendence_limit = 80, Percents = 0):
 
                 stringItem += f"Can Miss {count - 1} Classes\n"
 
-        stringItem += f"Min No of Classes to be Attended {classesAttended}\nNo of Classes it will take Totally {classesTaken - 1}\n"
+        # removing some extra info cause one of them aint right
+        # stringItem += f"Min No of Classes to be Attended {classesAttended}\nNo of Classes it will take Totally {classesTaken - 1}\n"
         
         stringItem += f"The New Percentage Will Be: {round(classesAttended/(classesTaken - 1)*100,2)}\n"
     print(stringItem)
