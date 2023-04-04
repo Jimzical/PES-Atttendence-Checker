@@ -1,15 +1,47 @@
-# V7
+# V8
 # PESU Academy Attendence Calculator
-
-
-from selenium import webdriver
-from selenium import *
-import pandas as pd
-import time
+'''
+New Features:
+    - Cache system for same day data
+    - Removed the need for requirements.txt
+Future Updates:
+    - Update the Documentation
+    - Something related to graphs
+'''
 import os
-from selenium.webdriver.chrome.options import Options
-import PySimpleGUI as sg
+import time
 import json
+try:
+    from selenium import webdriver
+    from selenium import *
+    from selenium.webdriver.chrome.options import Options
+except ModuleNotFoundError:
+    print('Missing Modules')
+    print('Installing Selenium....')
+    os.system('pip install selenium')
+    print('Installing Selenium....Done')
+    from selenium import webdriver
+    from selenium import *
+    from selenium.webdriver.chrome.options import Options
+
+try:
+    import pandas as pd
+except ModuleNotFoundError:
+    print('Missing Modules')
+    print('Installing Pandas....')
+    os.system('pip install pandas')
+    print('Installing Pandas....Done')
+    import pandas as pd
+
+try:
+    import PySimpleGUI as sg
+except ModuleNotFoundError:
+    print('Missing Modules')
+    print('Installing PySimpleGUI....')
+    os.system('pip install PySimpleGUI')
+    print('Installing PySimpleGUI....Done')
+    import PySimpleGUI as sg
+
 
 
 
@@ -31,11 +63,12 @@ def buildGUI():
             DefaultAttendence = data['Attendence'].strip()
     else:
         with open('secrets.json','w') as f:
-            data = {'Username':'','Password':''}
+            data = {'Username':'','Password':'','Attendence':'80','Data': {'Date':time.strftime("%d/%m/%Y"),'DataFrame':''}}
             json.dump(data,f)
             DefaultUsername = ''
             DefaultPassword = ''
             DefaultAttendence = '80'
+            
     
     print('Reading Files....Done')
 
@@ -66,7 +99,7 @@ def buildGUI():
                 json.dump(data,f)
         
         window.close()        
-        main(username = values['-USERNAME-'],password = values['-PASSWORD-'],attnLimit = values['-Attendence-'])
+        main(username = values['-USERNAME-'],password = values['-PASSWORD-'],attnLimit = values['-Attendence-'],data=data)
     
     elif event == 'Cancel' or event == sg.WIN_CLOSED:
             print('Cancelled')
@@ -262,14 +295,13 @@ def Attendence(Subject ,Classes = '0/0', Attendence_limit = 80, Percents = 0):
 
                 stringItem += f"Can Miss {count - 1} Classes\n"
 
-        # removing some extra info cause one of them aint right
         # stringItem += f"Min No of Classes to be Attended {classesAttended}\nNo of Classes it will take Totally {classesTaken - 1}\n"
         
         stringItem += f"The New Percentage Will Be: {round(classesAttended/(classesTaken - 1)*100,2)}\n"
     print(stringItem)
     return stringItem
 
-def ShowData(df,TotalData,LoadingWindow,browser):
+def ShowData(df,TotalData,LoadingWindow,browser,directRead = False):
     '''
     ------------------------------------------------------
     Function to show the data in a new window
@@ -284,9 +316,10 @@ def ShowData(df,TotalData,LoadingWindow,browser):
     Returns:
         None
     '''
-    print('Closing the Browser....')
-    browser.close()
-    print('Closing the Browser....Done')
+    if not directRead:
+        print('Closing the Browser....')
+        browser.close()
+        print('Closing the Browser....Done')
 
     print('Showing the Data....')
     print('Building the Window....')
@@ -315,7 +348,7 @@ def ShowData(df,TotalData,LoadingWindow,browser):
         print('Thank You for using this Software')
         exit()
 
-def main(username,password,attnLimit = 80):
+def main(username,password,attnLimit = 80, data = None):
     '''
     ------------------------------------------------------
     Main Function
@@ -329,29 +362,58 @@ def main(username,password,attnLimit = 80):
     Returns:
         None
     '''
+
     global LoadingWindow
-    
     print("Loading....")
 
     LoadingWindow = sg.Window('Loading',[[sg.Text('Loading....',font=("Casadia Code",15))]] , icon='Media/icon.ico', grab_anywhere=True)
     LoadingWindow.read(timeout=0)
 
-    print("Opening Browser....")
-    browser = OpenBrowser()
-    print("Opening Browser....Done")
+    if data['Data']['Date'] == time.strftime("%d/%m/%Y") and data['Data']['DataFrame'] != '' :
+        print('Opening the Data Window....')
+        print('Building the Window....')
 
-    df = Scraping(browser=browser,username=username,password=password)
+        print('Getting the Data Directly from Preivous Data Scrap....')
 
-    # Attendence(Classes = (df.loc[row[0],"Classes"]), Attendence_limit = 80)
-    TotalData = ""
-    print('Calculating Attendence....')
-    for ind in df.index:
+        df = data['Data']['DataFrame']
+        # converting json to pandas dataframe
+        df = pd.read_json(df, orient='index')
+        print('Getting the Data Directly from Preivous Data Scrap....Done')
+
+
+        TotalData = ""
+        print('Calculating Attendence....')
+        for ind in df.index:
             text = Attendence(Subject = ind,Classes = df["Classes"][ind], Attendence_limit = int(attnLimit), Percents = df["Percentage"][ind])
             TotalData += text
-    print('Calculating Attendence....Done')
-    print('Closing the Loading Window....')
-    print('Building the Data Window....')
-    ShowData(df,TotalData,LoadingWindow,browser)
+        print('Calculating Attendence....Done')
+        print('Closing the Loading Window....')
+        print('Building the Data Window....')
+        ShowData(df,TotalData,LoadingWindow,None,directRead=True)
+        return
+    
+    else:
+
+        print("Opening Browser....")
+        browser = OpenBrowser()
+        print("Opening Browser....Done")
+
+        df = Scraping(browser=browser,username=username,password=password)
+
+        json_df = df.to_json(orient='index')
+
+        with open('secrets.json','w') as f:
+            json.dump({'Username':username,'Password':password,'Attendence':'80','Data':{'Date':time.strftime("%d/%m/%Y"),'DataFrame':json_df}},f)
+        # Attendence(Classes = (df.loc[row[0],"Classes"]), Attendence_limit = 80)
+        TotalData = ""
+        print('Calculating Attendence....')
+        for ind in df.index:
+                text = Attendence(Subject = ind,Classes = df["Classes"][ind], Attendence_limit = int(attnLimit), Percents = df["Percentage"][ind])
+                TotalData += text
+        print('Calculating Attendence....Done')
+        print('Closing the Loading Window....')
+        print('Building the Data Window....')
+        ShowData(df,TotalData,LoadingWindow,browser)
 
 if __name__ == "__main__":
     print('Starting....')

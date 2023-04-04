@@ -47,22 +47,29 @@ It Then Shows How Many Classes Required To Get Back To That Limit If Behind or H
  # Requirements
  
  - Chromedriver is required, This Repo comes with the driver for verision 110.0.5481.178. If you have a newer version of chrome replace the driver with a newer version from the website 
-  >You can download it from here [Download Chrome Driver](https://chromedriver.chromium.org/downloads)  (This is Needed for Selenium to take Data from Chrome)
  - You can Find out your chrome version by visiting Chrome Settings -> Help or putting chrome://settings/help in the SearchBar
- >Chrome is Required as this only works for Chrome so far
+  >You can download it from here [Download Chrome Driver](https://chromedriver.chromium.org/downloads)  (This is Needed for Selenium to take Data from Chrome)
+  ><br>
+  >Chrome is Required as this only works for Chrome so far
  
- - To Download Dependencies, Run
-    ```
-    pip install -r requirements.txt
-    ```
-- <b>       OR      </b>
- 
-- The Following Libraries are Needed to Run
-   > selenium <br>
-   > pandas <br>
-   > json <br>
-   > PySimpleGUI <br>
- 
+<br>
+
+ -<b> Required Libraries will be Downloaded Automatically, in case they don't </b>
+<br>
+<br>
+
+  - To Download Dependencies, Run
+     ```
+     pip install -r requirements.txt
+     ```
+ - <b>       OR      </b>
+
+ - The Following Libraries are Needed to Run
+    > selenium <br>
+    > pandas <br>
+    > json <br>
+    > PySimpleGUI <br>
+
 
 ## Updates
 
