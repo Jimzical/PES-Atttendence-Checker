@@ -78,3 +78,4 @@ It Then Shows How Many Classes Required To Get Back To That Limit If Behind or H
 
 ## Planned Updates
  - Add Support for other Browsers as well
+   > Seems like the chromedriver part has depreciated so gotta go back and fix that
