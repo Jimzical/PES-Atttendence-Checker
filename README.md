@@ -1,5 +1,7 @@
 # PES-Atttendence-Checker
 
+> This project has been discontinued and is no longer functional.
+
 This is a Pet Project to learn Data Scraping and GUI in python
 
 It Calculates How Many Classes The User Is Ahead Or Behind Of A Set Attendence Limit By Checking The Attendence From pesuacademy
